@@ -62,14 +62,24 @@ int path_exists(int *maze, int rows, int columns, int x1, int y1, int x2, int y2
 		return path_exists(maze, rows, columns, (x1 + 1), y1, x2, y2);
 	}
 
+	
+	if (x1 + 1 == rows && (*((maze + (x1)*columns) + (y1 + 1)) == 0) && rows==1)
+	{
+		return 0;
+	}
+	if (y1 + 1 == columns && (*((maze + (x1 + 1)*columns) + (y1)) == 0) && columns==1)
+	{
+		return 0;
+	}
+
 
 	else if ((*((maze + (x1 - 1)*columns) + (y1)) == 1) && x1<rows &&y1<columns)
 	{
-		if (x1 + 1 == rows && (*((maze + (x1 + 1)*columns) + (y1)) == 0))
+		if (x1 + 1 == rows && (*((maze + (x1)*columns) + (y1 + 1)) == 0) && (*((maze + (x1 - 1)*columns) + (y1)) != 1))
 		{
 			return 0;
 		}
-		else if (y1 + 1 == columns && (*((maze + (x1)*columns) + (y1 + 1)) == 0))
+		if (y1 + 1 == columns && (*((maze + (x1 + 1)*columns) + (y1)) == 0) && (*((maze + (x1 - 1)*columns) + (y1)) != 1))
 		{
 			return 0;
 		}
@@ -77,7 +87,6 @@ int path_exists(int *maze, int rows, int columns, int x1, int y1, int x2, int y2
 		{
 			return path_exists(maze, rows, columns, (x1 - 1), y1, x2, y2);
 		}
-
 	}
 	else return 0;
 }
