@@ -33,8 +33,65 @@ Note : Check the function Parameters ,Its a double pointer .
 
 #include "stdafx.h"
 #include<stdlib.h>
-
+int *spiral_traverse(int **input_array, int *result, int rows, int columns, int startingx, int endingx, int startingy, int endingy, int index);
 int *spiral(int rows, int columns, int **input_array)
 {
-	return NULL;
+	if (input_array == NULL)
+		return NULL;
+	if (rows <= 0 || columns <= 0)
+		return NULL;
+	int *res = (int *)malloc(sizeof(int)*(rows*columns));
+	int start = 0, stx = 0, endx = rows - 1, sty = 0, endy = columns - 1;
+	res = spiral_traverse(input_array, res, rows, columns, stx, endx, sty, endy, start);
+	return res;
+	
+}
+
+int *spiral_traverse(int **input_array, int *res, int rows, int columns, int stx, int endx, int sty, int endy, int start)
+{
+	int temp;
+	if (start > rows*columns - 1)
+	{
+		return res;
+	}
+	else
+	{
+		for (temp = sty; temp <= endy; temp = temp + 1)
+		{
+			res[start] = input_array[stx][temp];
+			start++;
+		}
+		stx++;
+		for (temp = stx; temp <= endx; temp = temp + 1)
+		{
+			res[start] = input_array[temp][endy];
+			start++;
+		}
+		endy--;
+		if (stx < endx)
+		{
+			for (temp = endy; temp >= sty; temp -= 1)
+			{
+				res[start] = input_array[endx][temp];
+				start++;
+			}
+			endx--;
+		}
+		if (sty < endy)
+		{
+			for (temp = endx; temp >= stx; temp -= 1)
+			{
+				res[start] = input_array[temp][sty];
+				start++;
+			}
+			sty++;
+		}
+		if (start== rows*columns - 1)
+		{
+			if (stx == sty && endx == endy)
+				res[start] = input_array[stx][endy];
+			return res;
+		}
+	}
+	return spiral_traverse(input_array, res, rows, columns, stx, endx, sty, endy, start);
 }
